@@ -24,7 +24,7 @@ const Services = () => {
             key={service.id}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0, margin: '-150px 0px' }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <GlassCard className="overflow-hidden cursor-default group rounded-3xl">
