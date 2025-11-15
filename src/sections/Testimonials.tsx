@@ -1,10 +1,25 @@
 import GradientHeading from '../components/ui/GradientHeading';
 import SectionWrapper from '../components/ui/SectionWrapper';
-import TestimonialCarousel from '../components/ui/TestimonialCarousel';
+import GlassCard from '../components/ui/GlassCard';
+import StarRating from '../components/ui/StarRating';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 
 const Testimonials = () => {
   const { data } = usePortfolioData();
+
+  if (!data?.testimonials || data.testimonials.length === 0) {
+    return (
+      <SectionWrapper id="testimonials">
+        <div className="space-y-3 text-center mb-12">
+          <GradientHeading>Testimonials</GradientHeading>
+          <h3 className="section-heading">Trusted by product-led teams</h3>
+        </div>
+        <div className="text-center py-12">
+          <p className="text-slate-500 dark:text-slate-400">No testimonials available yet.</p>
+        </div>
+      </SectionWrapper>
+    );
+  }
 
   return (
     <SectionWrapper id="testimonials">
@@ -15,14 +30,119 @@ const Testimonials = () => {
           See what clients say about working with TaskEase VA
         </p>
       </div>
-      <div className="max-w-4xl mx-auto px-4">
-        {data?.testimonials && data.testimonials.length > 0 ? (
-          <TestimonialCarousel testimonials={data.testimonials} />
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-slate-500 dark:text-slate-400">No testimonials available yet.</p>
+      <div className="relative">
+        {/* Mobile: Horizontal scroll, one at a time */}
+        <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth md:hidden">
+          <div className="flex gap-6 pb-4">
+            {data.testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="flex-shrink-0 snap-start"
+                style={{ 
+                  width: 'calc(100vw - 2rem)',
+                  minWidth: 'calc(100vw - 2rem)',
+                  maxWidth: 'calc(100vw - 2rem)'
+                }}
+              >
+                <GlassCard className="h-full p-6 space-y-4 cursor-default group">
+                  <div className="flex items-start justify-between">
+                    {testimonial.rating && (
+                      <StarRating rating={testimonial.rating} size="md" />
+                    )}
+                    <div className="text-5xl text-primary/10 dark:text-primary/20 font-serif leading-none">
+                      "
+                    </div>
+                  </div>
+                  <p className="text-base font-medium text-slate-900 dark:text-white leading-relaxed">
+                    {testimonial.quote}
+                  </p>
+                  <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                    {testimonial.avatar && (
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20"
+                        />
+                        <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary/40 via-accent/40 to-blue-500/40 blur-md opacity-50" />
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                        {testimonial.name}
+                      </p>
+                      {testimonial.rating && (
+                        <StarRating rating={testimonial.rating} size="sm" className="mt-1" />
+                      )}
+                    </div>
+                  </div>
+                </GlassCard>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+        {/* Desktop: Grid layout, 3 per row with horizontal scroll */}
+        <div className="hidden md:block">
+          <div className="max-w-7xl mx-auto overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth">
+            <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
+              {data.testimonials.map((testimonial) => (
+                <div
+                  key={testimonial.id}
+                  className="flex-shrink-0 snap-start"
+                  style={{ 
+                    width: 'calc((min(100vw, 1280px) - 8rem) / 3)',
+                    minWidth: '350px',
+                    maxWidth: '400px'
+                  }}
+                >
+                <GlassCard className="h-full p-8 space-y-4 cursor-default group">
+                  <div className="flex items-start justify-between">
+                    {testimonial.rating && (
+                      <StarRating rating={testimonial.rating} size="md" />
+                    )}
+                    <div className="text-6xl text-primary/10 dark:text-primary/20 font-serif leading-none">
+                      "
+                    </div>
+                  </div>
+                  <p className="text-lg font-medium text-slate-900 dark:text-white leading-relaxed">
+                    {testimonial.quote}
+                  </p>
+                  <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                    {testimonial.avatar && (
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          className="h-14 w-14 rounded-full object-cover ring-2 ring-primary/20"
+                        />
+                        <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary/40 via-accent/40 to-blue-500/40 blur-md opacity-50" />
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-base font-semibold text-slate-900 dark:text-white truncate">
+                        {testimonial.name}
+                      </p>
+                      {testimonial.rating && (
+                        <StarRating rating={testimonial.rating} size="sm" className="mt-1" />
+                      )}
+                    </div>
+                  </div>
+                </GlassCard>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Scroll indicator */}
+        <div className="flex justify-center gap-2 mt-6">
+          {data.testimonials.map((_, index) => (
+            <div
+              key={index}
+              className="h-2 w-2 rounded-full bg-slate-300 dark:bg-slate-600"
+              aria-hidden="true"
+            />
+          ))}
+        </div>
       </div>
     </SectionWrapper>
   );
