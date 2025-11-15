@@ -73,7 +73,7 @@ Follow these steps if you opened the project in a blank folder and now want it o
    ```bash
    git status
    ```
-   - If you see “fatal: not a git repository,” initialize Git with `git init`.
+   - If you see "fatal: not a git repository," initialize Git with `git init`.
 3. **Add / update the remote origin.** Replace `<your-remote-url>` with the HTTPS or SSH URL from the repo you just created.
    ```bash
    git remote remove origin 2>/dev/null || true
