@@ -14,7 +14,7 @@ const Projects = () => {
         <GradientHeading>Case Studies</GradientHeading>
         <h3 className="section-heading">Recent systems + ops builds</h3>
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-3">
         {data?.projects.map((project, index) => {
           // Handle both string and array formats (for backward compatibility)
           let metricsArray: string[] = [];

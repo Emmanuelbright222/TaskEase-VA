@@ -46,25 +46,55 @@ const HeroForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    const { id, ...rest } = formValues;
-    const payload = id ? { id, ...rest } : rest;
-    
-    // Ensure all fields are properly formatted
-    const formattedPayload = {
-      ...payload,
-      avatar_url: payload.avatar_url?.trim() || null,
-      calendly_url: payload.calendly_url?.trim() || null,
-      name: payload.name?.trim() || null,
-      title: payload.title?.trim() || null,
-      subtitle: payload.subtitle?.trim() || null,
-    };
-    
-    const { data: savedData, error } = await supabase.from('hero').upsert(formattedPayload, { onConflict: 'id' }).select();
-    setLoading(false);
     const toastId = typeof crypto?.randomUUID === 'function' ? crypto.randomUUID() : String(Date.now());
-    if (error) {
-      createToast.emit({ id: toastId, message: error.message, type: 'error' });
-    } else {
+    
+    try {
+      const { id, ...rest } = formValues;
+      
+      // Ensure all fields are properly formatted
+      const formattedPayload: any = {
+        avatar_url: formValues.avatar_url?.trim() || null,
+        calendly_url: formValues.calendly_url?.trim() || null,
+        name: formValues.name?.trim() || null,
+        title: formValues.title?.trim() || null,
+        subtitle: formValues.subtitle?.trim() || null,
+        contact_cta: formValues.contact_cta?.trim() || 'Contact Me',
+        cta_label: formValues.cta_label?.trim() || 'Book a Call',
+      };
+      
+      let savedData: any = null;
+      let error: any = null;
+      
+      // Strategy: Always work with the first hero record (there should only be one)
+      if (id) {
+        // Update existing record
+        const result = await supabase.from('hero').update(formattedPayload).eq('id', id).select();
+        savedData = result.data;
+        error = result.error;
+      } else {
+        // Check if any hero record exists first
+        const { data: existingHeroes } = await supabase.from('hero').select('id').limit(1);
+        
+        if (existingHeroes && existingHeroes.length > 0) {
+          // Update the first existing record
+          const result = await supabase.from('hero').update(formattedPayload).eq('id', existingHeroes[0].id).select();
+          savedData = result.data;
+          error = result.error;
+        } else {
+          // Insert new record
+          const result = await supabase.from('hero').insert(formattedPayload).select();
+          savedData = result.data;
+          error = result.error;
+        }
+      }
+      
+      if (error) {
+        console.error('Hero save error:', error);
+        createToast.emit({ id: toastId, message: `Error: ${error.message}`, type: 'error' });
+        setLoading(false);
+        return;
+      }
+      
       // Update form with saved data (including the ID if it was created)
       if (savedData && savedData[0]) {
         setFormValues({
@@ -81,9 +111,20 @@ const HeroForm = () => {
       
       // Force revalidation of hero cache to refresh frontend
       // Fetch fresh data and update cache immediately
-      const freshHeroData = await fetchHero();
-      await mutate('hero', freshHeroData, { revalidate: true });
+      try {
+        const freshHeroData = await fetchHero();
+        await mutate('hero', freshHeroData, { revalidate: true });
+      } catch (mutateError) {
+        console.warn('Cache update error (non-critical):', mutateError);
+        // Still show success even if cache update fails
+      }
+      
       createToast.emit({ id: `${toastId}-success`, message: 'Hero updated successfully', type: 'success' });
+    } catch (err: any) {
+      console.error('Unexpected error:', err);
+      createToast.emit({ id: toastId, message: `Unexpected error: ${err?.message || 'Unknown error'}`, type: 'error' });
+    } finally {
+      setLoading(false);
     }
   };
 
