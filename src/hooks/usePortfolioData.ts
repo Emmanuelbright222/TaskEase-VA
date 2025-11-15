@@ -74,12 +74,12 @@ const fetchPortfolio = async (): Promise<PortfolioData> => {
         avatar: testimonial.avatar,
         rating: testimonial.rating
       })) ?? defaultPortfolioData.testimonials,
-      tools: tools?.map((tool: any) => ({
+      tools: tools && tools.length > 0 ? tools.map((tool: any) => ({
         id: tool.id,
         name: tool.name,
         category: tool.category,
         proficiency: tool.proficiency
-      })) ?? defaultPortfolioData.tools,
+      })) : [],
       pricing: {
         enabled: Boolean(aboutData?.show_pricing ?? defaultPortfolioData.pricing.enabled),
         plans:

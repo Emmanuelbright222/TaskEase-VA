@@ -2,12 +2,10 @@ import GradientHeading from '../components/ui/GradientHeading';
 import SectionWrapper from '../components/ui/SectionWrapper';
 import GlassCard from '../components/ui/GlassCard';
 import { usePortfolioData } from '../hooks/usePortfolioData';
-import { useHeroContent } from '../hooks/usePortfolioData';
 import { CheckIcon } from '@heroicons/react/24/solid';
 
 const Pricing = () => {
   const { data } = usePortfolioData();
-  const { data: hero } = useHeroContent();
 
   if (!data?.pricing.enabled) return null;
 
@@ -58,18 +56,6 @@ const Pricing = () => {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={hero?.calendlyUrl || '#contact'}
-                  target={hero?.calendlyUrl ? '_blank' : undefined}
-                  rel={hero?.calendlyUrl ? 'noreferrer' : undefined}
-                  className={`w-full py-3 px-6 rounded-xl font-semibold text-center transition-all duration-300 ${
-                    isRecommended
-                      ? 'bg-gradient-to-r from-slate-900 to-slate-800 text-white hover:from-slate-800 hover:to-slate-700 shadow-lg hover:shadow-xl dark:from-white dark:to-slate-100 dark:text-slate-900 dark:hover:from-slate-100 dark:hover:to-slate-200'
-                      : 'bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
-                  }`}
-                >
-                  Book a Free Consultation
-                </a>
               </GlassCard>
             </div>
           );

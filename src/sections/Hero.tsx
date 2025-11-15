@@ -1,13 +1,10 @@
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid';
-import { useHeroContent, usePortfolioData } from '../hooks/usePortfolioData';
+import { useHeroContent } from '../hooks/usePortfolioData';
 import GradientHeading from '../components/ui/GradientHeading';
 import { heroFallback } from '../data/defaultContent';
-import GlassCard from '../components/ui/GlassCard';
 
 const Hero = () => {
   const { data: hero } = useHeroContent();
-  const { data: portfolio } = usePortfolioData();
-  const about = portfolio?.about;
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-100 via-white to-slate-200 px-4 py-24 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
@@ -35,12 +32,6 @@ const Hero = () => {
               {hero?.contactCta ?? heroFallback.contactCta}
             </a>
           </div>
-          {about && (
-            <GlassCard className="max-w-xl text-base text-slate-600 dark:text-slate-200">
-              <p className="font-semibold text-slate-900 dark:text-white">{about.title}</p>
-              <p className="text-sm text-slate-500 dark:text-slate-300">{about.body}</p>
-            </GlassCard>
-          )}
         </div>
         <div className="relative">
           <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-r from-primary/50 via-accent/40 to-blue-500/50 blur-3xl" />

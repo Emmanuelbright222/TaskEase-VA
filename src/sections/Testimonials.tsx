@@ -83,16 +83,15 @@ const Testimonials = () => {
         </div>
         {/* Desktop: Grid layout, 3 per row with horizontal scroll */}
         <div className="hidden md:block">
-          <div className="max-w-7xl mx-auto overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth">
-            <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
+          <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-4">
+            <div className="flex gap-6 pb-4">
               {data.testimonials.map((testimonial) => (
                 <div
                   key={testimonial.id}
                   className="flex-shrink-0 snap-start"
                   style={{ 
-                    width: 'calc((min(100vw, 1280px) - 8rem) / 3)',
-                    minWidth: '350px',
-                    maxWidth: '400px'
+                    width: 'calc((100vw - 8rem) / 3)',
+                    minWidth: '380px'
                   }}
                 >
                 <GlassCard className="h-full p-8 space-y-4 cursor-default group">
