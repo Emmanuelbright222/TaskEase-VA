@@ -14,19 +14,25 @@ const Tools = () => {
       </div>
       {data?.tools && data.tools.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-4">
-          {data.tools.map((tool) => (
-            <GlassCard key={tool.id} className="space-y-2 text-sm cursor-default group">
-              <p className="text-base font-semibold text-slate-900 dark:text-white transition-colors duration-300 group-hover:text-primary">
-                {tool.name}
-              </p>
-              <p className="text-slate-500 dark:text-slate-300 transition-colors duration-300 group-hover:text-slate-600 dark:group-hover:text-slate-200">
-                {tool.category}
-              </p>
-              <p className="text-xs text-slate-400 transition-colors duration-300 group-hover:text-slate-500 dark:group-hover:text-slate-300">
-                {tool.proficiency}
-              </p>
-            </GlassCard>
-          ))}
+          {data.tools
+            .filter((tool) => tool.name && tool.name.trim() !== '')
+            .map((tool) => (
+              <GlassCard key={tool.id} className="space-y-2 text-sm cursor-default group">
+                <p className="text-base font-semibold text-slate-900 dark:text-white transition-colors duration-300 group-hover:text-primary">
+                  {tool.name}
+                </p>
+                {tool.category && (
+                  <p className="text-slate-500 dark:text-slate-300 transition-colors duration-300 group-hover:text-slate-600 dark:group-hover:text-slate-200">
+                    {tool.category}
+                  </p>
+                )}
+                {tool.proficiency && (
+                  <p className="text-xs text-slate-400 transition-colors duration-300 group-hover:text-slate-500 dark:group-hover:text-slate-300">
+                    {tool.proficiency}
+                  </p>
+                )}
+              </GlassCard>
+            ))}
         </div>
       ) : (
         <div className="text-center py-12">
