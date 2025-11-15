@@ -7,8 +7,8 @@ const SectionWrapper = ({ id, children, className }: { id?: string; children: Re
     <motion.div
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      viewport={{ once: true, amount: 0.1, margin: '-100px' }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
       className="space-y-6"
     >
       {children}

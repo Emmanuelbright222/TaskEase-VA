@@ -3,6 +3,7 @@ import SectionWrapper from '../components/ui/SectionWrapper';
 import GlassCard from '../components/ui/GlassCard';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 import { CheckIcon } from '@heroicons/react/24/solid';
+import { motion } from 'framer-motion';
 
 const Pricing = () => {
   const { data } = usePortfolioData();
@@ -22,7 +23,14 @@ const Pricing = () => {
         {plans.map((plan, index) => {
           const isRecommended = index === recommendedIndex;
           return (
-            <div key={plan.id} className="relative">
+            <motion.div
+              key={plan.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="relative"
+            >
               {isRecommended && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
                   <span className="inline-flex items-center rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1 text-xs font-semibold text-white shadow-lg">
@@ -57,7 +65,7 @@ const Pricing = () => {
                   ))}
                 </ul>
               </GlassCard>
-            </div>
+            </motion.div>
           );
         })}
       </div>

@@ -2,6 +2,7 @@ import GradientHeading from '../components/ui/GradientHeading';
 import SectionWrapper from '../components/ui/SectionWrapper';
 import GlassCard from '../components/ui/GlassCard';
 import { usePortfolioData } from '../hooks/usePortfolioData';
+import { motion } from 'framer-motion';
 
 const Services = () => {
   const { data } = usePortfolioData();
@@ -18,8 +19,15 @@ const Services = () => {
         </div>
       </div>
       <div className="grid gap-8 md:grid-cols-3">
-        {data?.services.map((service) => (
-          <GlassCard key={service.id} className="overflow-hidden cursor-default group rounded-3xl">
+        {data?.services.map((service, index) => (
+          <motion.div
+            key={service.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <GlassCard className="overflow-hidden cursor-default group rounded-3xl">
             {service.imageUrl ? (
               <div className="relative h-56 w-full overflow-hidden -m-6 -mt-6 mb-4 rounded-t-3xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-blue-500/20 blur-2xl" />
@@ -53,6 +61,7 @@ const Services = () => {
               </p>
             </div>
           </GlassCard>
+          </motion.div>
         ))}
       </div>
     </SectionWrapper>

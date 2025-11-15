@@ -34,6 +34,41 @@ const TestimonialCarouselScroll = ({ testimonials }: TestimonialCarouselScrollPr
     }
   }, [testimonials.length]);
 
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (testimonials.length <= 3) return; // Don't auto-scroll if all fit on screen
+    
+    const autoScrollInterval = setInterval(() => {
+      if (!scrollContainerRef.current) return;
+      const container = scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      
+      // Check if we can scroll right
+      if (scrollLeft < scrollWidth - clientWidth - 10) {
+        const cardWidth = container.clientWidth / 3;
+        const scrollAmount = cardWidth + 24;
+        const newScrollLeft = scrollLeft + scrollAmount;
+        
+        container.scrollTo({
+          left: newScrollLeft,
+          behavior: 'smooth'
+        });
+        
+        const newIndex = Math.round(newScrollLeft / scrollAmount);
+        setCurrentIndex(Math.max(0, Math.min(newIndex, testimonials.length - 3)));
+      } else {
+        // Reset to beginning
+        container.scrollTo({
+          left: 0,
+          behavior: 'smooth'
+        });
+        setCurrentIndex(0);
+      }
+    }, 5000); // Auto-scroll every 5 seconds
+
+    return () => clearInterval(autoScrollInterval);
+  }, [testimonials.length]);
+
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;

@@ -3,6 +3,7 @@ import SectionWrapper from '../components/ui/SectionWrapper';
 import GlassCard from '../components/ui/GlassCard';
 import Badge from '../components/ui/Badge';
 import { usePortfolioData } from '../hooks/usePortfolioData';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
   const { data } = usePortfolioData();
@@ -14,7 +15,7 @@ const Projects = () => {
         <h3 className="section-heading">Recent systems + ops builds</h3>
       </div>
       <div className="grid gap-6 md:grid-cols-2">
-        {data?.projects.map((project) => {
+        {data?.projects.map((project, index) => {
           // Handle both string and array formats (for backward compatibility)
           let metricsArray: string[] = [];
           const metrics = project.metrics;
@@ -29,7 +30,14 @@ const Projects = () => {
           }
 
           return (
-            <GlassCard key={project.id} className="space-y-4 cursor-default group overflow-hidden">
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <GlassCard className="space-y-4 cursor-default group overflow-hidden">
               {/* Project Title */}
               <p className="text-xl font-semibold text-slate-900 dark:text-white transition-colors duration-300 group-hover:text-primary text-center md:text-left">
                 {project.name}
@@ -66,6 +74,7 @@ const Projects = () => {
                 </a>
               )}
             </GlassCard>
+            </motion.div>
           );
         })}
       </div>
