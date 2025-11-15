@@ -22,15 +22,21 @@ const Projects = () => {
               </p>
               {project.metrics && (() => {
                 // Handle both string and array formats (for backward compatibility)
-                const metricsArray = Array.isArray(project.metrics) 
-                  ? project.metrics 
-                  : typeof project.metrics === 'string' && project.metrics.trim()
-                    ? project.metrics.split(/[·,]/).map(m => m.trim()).filter(Boolean)
-                    : [];
+                let metricsArray: string[] = [];
+                const metrics = project.metrics;
+                if (Array.isArray(metrics)) {
+                  metricsArray = metrics;
+                } else {
+                  // Handle string format (for backward compatibility with old data)
+                  const metricsStr = metrics as unknown as string;
+                  if (typeof metricsStr === 'string' && metricsStr.trim()) {
+                    metricsArray = metricsStr.split(/[·,]/).map((m: string) => m.trim()).filter(Boolean);
+                  }
+                }
                 
                 return metricsArray.length > 0 ? (
                   <div className="flex flex-wrap gap-2 justify-end">
-                    {metricsArray.map((metric, idx) => (
+                    {metricsArray.map((metric: string, idx: number) => (
                       <Badge key={idx}>{metric}</Badge>
                     ))}
                   </div>
