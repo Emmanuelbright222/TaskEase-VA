@@ -2,6 +2,7 @@ import GradientHeading from '../components/ui/GradientHeading';
 import SectionWrapper from '../components/ui/SectionWrapper';
 import GlassCard from '../components/ui/GlassCard';
 import StarRating from '../components/ui/StarRating';
+import TestimonialCarouselScroll from '../components/ui/TestimonialCarouselScroll';
 import { usePortfolioData } from '../hooks/usePortfolioData';
 
 const Testimonials = () => {
@@ -83,73 +84,7 @@ const Testimonials = () => {
         </div>
         {/* Desktop: Grid layout, 3 per row with horizontal scroll */}
         <div className="hidden md:block">
-          <div 
-            className="overflow-x-auto scrollbar-hide snap-x snap-mandatory px-4" 
-            style={{ 
-              scrollBehavior: 'smooth',
-              WebkitOverflowScrolling: 'touch',
-              scrollSnapType: 'x mandatory'
-            }}
-          >
-            <div className="flex gap-6 pb-4" style={{ width: 'max-content', minWidth: '100%' }}>
-              {data.testimonials.map((testimonial) => (
-                <div
-                  key={testimonial.id}
-                  className="flex-shrink-0 snap-start"
-                  style={{ 
-                    width: 'calc((100vw - 8rem) / 3)',
-                    minWidth: '380px',
-                    maxWidth: '420px',
-                    scrollSnapAlign: 'start'
-                  }}
-                >
-                <GlassCard className="h-full p-8 space-y-4 cursor-default group">
-                  <div className="flex items-start justify-between">
-                    {testimonial.rating && (
-                      <StarRating rating={testimonial.rating} size="md" />
-                    )}
-                    <div className="text-6xl text-primary/10 dark:text-primary/20 font-serif leading-none">
-                      "
-                    </div>
-                  </div>
-                  <p className="text-lg font-medium text-slate-900 dark:text-white leading-relaxed">
-                    {testimonial.quote}
-                  </p>
-                  <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                    {testimonial.avatar && (
-                      <div className="relative flex-shrink-0">
-                        <img
-                          src={testimonial.avatar}
-                          alt={testimonial.name}
-                          className="h-14 w-14 rounded-full object-cover ring-2 ring-primary/20"
-                        />
-                        <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary/40 via-accent/40 to-blue-500/40 blur-md opacity-50" />
-                      </div>
-                    )}
-                    <div className="min-w-0">
-                      <p className="text-base font-semibold text-slate-900 dark:text-white truncate">
-                        {testimonial.name}
-                      </p>
-                      {testimonial.rating && (
-                        <StarRating rating={testimonial.rating} size="sm" className="mt-1" />
-                      )}
-                    </div>
-                  </div>
-                </GlassCard>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* Scroll indicator */}
-        <div className="flex justify-center gap-2 mt-6">
-          {data.testimonials.map((_, index) => (
-            <div
-              key={index}
-              className="h-2 w-2 rounded-full bg-slate-300 dark:bg-slate-600"
-              aria-hidden="true"
-            />
-          ))}
+          <TestimonialCarouselScroll testimonials={data.testimonials} />
         </div>
       </div>
     </SectionWrapper>

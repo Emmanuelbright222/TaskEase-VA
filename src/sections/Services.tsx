@@ -23,26 +23,19 @@ const Services = () => {
             {service.imageUrl ? (
               <div className="relative h-56 w-full overflow-hidden -m-6 -mt-6 mb-4 rounded-t-3xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-blue-500/20 blur-2xl" />
-                <div className="relative w-full h-full">
-                  <img
-                    src={service.imageUrl}
-                    alt={service.title}
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                    style={{ 
-                      width: '100%', 
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center',
-                      display: 'block',
-                      minWidth: '100%',
-                      minHeight: '100%'
-                    }}
-                    onError={(e) => {
-                      // Fallback if image fails to load
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                </div>
+                <img
+                  src={service.imageUrl}
+                  alt={service.title}
+                  className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ 
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
+                  onError={(e) => {
+                    // Fallback if image fails to load
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
               </div>
             ) : (
