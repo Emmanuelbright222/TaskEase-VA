@@ -97,6 +97,9 @@ const CrudList = ({ table, title, description, fields }: { table: string; title:
     if (payload.published_at) {
       payload.published_at = new Date(payload.published_at).toISOString();
     }
+    if (payload.rating) {
+      payload.rating = parseInt(payload.rating, 10);
+    }
 
     let error;
     if (editingId) {

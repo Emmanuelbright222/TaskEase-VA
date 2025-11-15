@@ -20,17 +20,20 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: 'service-1',
       title: 'Inbox + Calendar Ownership',
-      description: 'Proactive email triage, scheduling, and guardrails that protect deep work.'
+      description: 'Proactive email triage, scheduling, and guardrails that protect deep work.',
+      imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
     },
     {
       id: 'service-2',
       title: 'Systems + SOP Buildout',
-      description: 'ClickUp/Notion/HubSpot setups, process documentation, and automation audits.'
+      description: 'ClickUp/Notion/HubSpot setups, process documentation, and automation audits.',
+      imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
     },
     {
       id: 'service-3',
       title: 'Client + Team Ops',
-      description: 'Onboarding flows, reporting, and async updates that keep everyone aligned.'
+      description: 'Onboarding flows, reporting, and async updates that keep everyone aligned.',
+      imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'
     }
   ],
   projects: [
@@ -54,37 +57,43 @@ export const defaultPortfolioData: PortfolioData = {
       id: 'testimonial-1',
       name: 'Amelia Roth · CEO, Loomly Labs',
       quote: 'Jordan has a quiet, calming confidence. Within weeks our leadership team had more headspace than we had in years.',
-      avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80'
+      avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80',
+      rating: 5
     },
     {
       id: 'testimonial-2',
       name: 'Marcus Chen · Founder, TechFlow Inc',
       quote: 'The systems Jordan built saved us 15+ hours per week. Our team can finally focus on what matters—building great products.',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      rating: 5
     },
     {
       id: 'testimonial-3',
       name: 'Sarah Mitchell · COO, Growth Partners',
       quote: 'Working with Jordan transformed how we operate. The documentation and processes are so clear, onboarding new team members is effortless.',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80'
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+      rating: 5
     },
     {
       id: 'testimonial-4',
       name: 'David Park · CEO, ScaleUp Solutions',
       quote: 'Best investment we made this year. Jordan handles everything from email management to client onboarding—I can finally focus on strategy.',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80'
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+      rating: 5
     },
     {
       id: 'testimonial-5',
       name: 'Emily Rodriguez · Founder, Creative Agency Co',
       quote: 'Jordan\'s attention to detail is unmatched. Every process is documented, every system is optimized. It\'s like having a COO without the overhead.',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80'
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
+      rating: 5
     },
     {
       id: 'testimonial-6',
       name: 'James Wilson · Executive Director, NonProfit Hub',
       quote: 'The automation and systems Jordan implemented increased our efficiency by 40%. We\'re serving more clients with the same resources.',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      rating: 5
     }
   ],
   tools: [

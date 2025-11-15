@@ -12,6 +12,7 @@ export type Service = {
   id: string;
   title: string;
   description: string;
+  imageUrl?: string;
 };
 
 export type Project = {
@@ -29,6 +30,7 @@ export type Testimonial = {
   name: string;
   quote: string;
   avatar?: string;
+  rating?: number;
 };
 
 export type Tool = {

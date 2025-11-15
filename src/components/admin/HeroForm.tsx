@@ -4,6 +4,7 @@ import InputField from '../ui/InputField';
 import TextareaField from '../ui/TextareaField';
 import { supabase } from '../../lib/supabaseClient';
 import { createToast } from '../ui/ToastContainer';
+import { mutate } from 'swr';
 
 const HeroForm = () => {
   const [formValues, setFormValues] = useState({
@@ -52,6 +53,8 @@ const HeroForm = () => {
     if (error) {
       createToast.emit({ id: toastId, message: error.message, type: 'error' });
     } else {
+      // Invalidate cache to refresh hero data on frontend
+      await mutate('hero');
       createToast.emit({ id: `${toastId}-success`, message: 'Hero updated', type: 'success' });
     }
   };

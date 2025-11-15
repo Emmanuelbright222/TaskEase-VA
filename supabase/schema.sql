@@ -23,6 +23,7 @@ create table if not exists services (
   id uuid primary key default uuid_generate_v4(),
   title text not null,
   description text,
+  image_url text,
   created_at timestamptz default now()
 );
 
@@ -42,6 +43,7 @@ create table if not exists testimonials (
   name text,
   quote text,
   avatar text,
+  rating integer check (rating >= 1 AND rating <= 5),
   created_at timestamptz default now()
 );
 

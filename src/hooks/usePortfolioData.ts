@@ -40,7 +40,8 @@ const fetchPortfolio = async (): Promise<PortfolioData> => {
       services: services?.map((service: any) => ({
         id: service.id,
         title: service.title,
-        description: service.description
+        description: service.description,
+        imageUrl: service.image_url
       })) ?? defaultPortfolioData.services,
       projects: projects?.map((project: any) => {
         // Normalize metrics to always be an array (handle both string and array from DB)
@@ -70,7 +71,8 @@ const fetchPortfolio = async (): Promise<PortfolioData> => {
         id: testimonial.id,
         name: testimonial.name,
         quote: testimonial.quote,
-        avatar: testimonial.avatar
+        avatar: testimonial.avatar,
+        rating: testimonial.rating
       })) ?? defaultPortfolioData.testimonials,
       tools: tools?.map((tool: any) => ({
         id: tool.id,
@@ -109,7 +111,12 @@ const fetchPortfolio = async (): Promise<PortfolioData> => {
 };
 
 export const useHeroContent = () => {
-  return useSWR('hero', fetchHero, { fallbackData: heroFallback, revalidateOnFocus: false });
+  return useSWR('hero', fetchHero, { 
+    fallbackData: heroFallback, 
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    refreshInterval: 0
+  });
 };
 
 export const usePortfolioData = () => {
