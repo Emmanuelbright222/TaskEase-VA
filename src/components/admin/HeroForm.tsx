@@ -47,7 +47,18 @@ const HeroForm = () => {
     setLoading(true);
     const { id, ...rest } = formValues;
     const payload = id ? { id, ...rest } : rest;
-    const { error } = await supabase.from('hero').upsert(payload, { onConflict: 'id' });
+    
+    // Ensure all fields are properly formatted
+    const formattedPayload = {
+      ...payload,
+      avatar_url: payload.avatar_url?.trim() || null,
+      calendly_url: payload.calendly_url?.trim() || null,
+      name: payload.name?.trim() || null,
+      title: payload.title?.trim() || null,
+      subtitle: payload.subtitle?.trim() || null,
+    };
+    
+    const { error } = await supabase.from('hero').upsert(formattedPayload, { onConflict: 'id' });
     setLoading(false);
     const toastId = typeof crypto?.randomUUID === 'function' ? crypto.randomUUID() : String(Date.now());
     if (error) {
@@ -55,7 +66,7 @@ const HeroForm = () => {
     } else {
       // Invalidate cache to refresh hero data on frontend
       await mutate('hero');
-      createToast.emit({ id: `${toastId}-success`, message: 'Hero updated', type: 'success' });
+      createToast.emit({ id: `${toastId}-success`, message: 'Hero updated successfully', type: 'success' });
     }
   };
 
@@ -65,7 +76,28 @@ const HeroForm = () => {
         <InputField label="Name" value={formValues.name} onChange={(event) => handleChange('name', event.target.value)} />
         <InputField label="Title" value={formValues.title} onChange={(event) => handleChange('title', event.target.value)} />
         <TextareaField label="Subtitle" value={formValues.subtitle} rows={3} onChange={(event) => handleChange('subtitle', event.target.value)} />
-        <InputField label="Avatar URL" value={formValues.avatar_url} onChange={(event) => handleChange('avatar_url', event.target.value)} />
+        <div className="space-y-2">
+          <InputField label="Avatar URL" value={formValues.avatar_url} onChange={(event) => handleChange('avatar_url', event.target.value)} />
+          {formValues.avatar_url && (
+            <div className="mt-2">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Preview:</p>
+              <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-slate-300 dark:border-slate-600">
+                <img
+                  src={formValues.avatar_url}
+                  alt="Avatar preview"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+                <div className="hidden absolute inset-0 flex items-center justify-center bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 text-xs">
+                  Invalid URL
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
         <InputField label="Calendly URL" value={formValues.calendly_url} onChange={(event) => handleChange('calendly_url', event.target.value)} />
         <div className="grid gap-4 md:grid-cols-2">
           <InputField label="CTA Label" value={formValues.cta_label} onChange={(event) => handleChange('cta_label', event.target.value)} />
