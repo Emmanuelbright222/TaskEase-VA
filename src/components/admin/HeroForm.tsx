@@ -5,6 +5,7 @@ import TextareaField from '../ui/TextareaField';
 import { supabase } from '../../lib/supabaseClient';
 import { createToast } from '../ui/ToastContainer';
 import { mutate } from 'swr';
+import { fetchHero } from '../../hooks/usePortfolioData';
 
 const HeroForm = () => {
   const [formValues, setFormValues] = useState({
@@ -58,14 +59,30 @@ const HeroForm = () => {
       subtitle: payload.subtitle?.trim() || null,
     };
     
-    const { error } = await supabase.from('hero').upsert(formattedPayload, { onConflict: 'id' });
+    const { data: savedData, error } = await supabase.from('hero').upsert(formattedPayload, { onConflict: 'id' }).select();
     setLoading(false);
     const toastId = typeof crypto?.randomUUID === 'function' ? crypto.randomUUID() : String(Date.now());
     if (error) {
       createToast.emit({ id: toastId, message: error.message, type: 'error' });
     } else {
-      // Invalidate cache to refresh hero data on frontend
-      await mutate('hero');
+      // Update form with saved data (including the ID if it was created)
+      if (savedData && savedData[0]) {
+        setFormValues({
+          id: savedData[0].id ?? '',
+          name: savedData[0].name ?? '',
+          title: savedData[0].title ?? '',
+          subtitle: savedData[0].subtitle ?? '',
+          avatar_url: savedData[0].avatar_url ?? '',
+          calendly_url: savedData[0].calendly_url ?? '',
+          contact_cta: savedData[0].contact_cta ?? 'Contact Me',
+          cta_label: savedData[0].cta_label ?? 'Book a Call'
+        });
+      }
+      
+      // Force revalidation of hero cache to refresh frontend
+      // Fetch fresh data and update cache immediately
+      const freshHeroData = await fetchHero();
+      await mutate('hero', freshHeroData, { revalidate: true });
       createToast.emit({ id: `${toastId}-success`, message: 'Hero updated successfully', type: 'success' });
     }
   };

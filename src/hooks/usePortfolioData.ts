@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabaseClient';
 import { defaultPortfolioData, heroFallback } from '../data/defaultContent';
 import type { HeroContent, PortfolioData } from '../types/portfolio';
 
-const fetchHero = async (): Promise<HeroContent> => {
+export const fetchHero = async (): Promise<HeroContent> => {
   try {
     // First try to get a single row, if multiple exist, get the first one
     const { data, error } = await supabase.from('hero').select('*').limit(1).maybeSingle();
