@@ -137,7 +137,9 @@ export const useHeroContent = () => {
     fallbackData: heroFallback, 
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
-    refreshInterval: 0
+    refreshInterval: 0,
+    // Ensure data is always fresh
+    dedupingInterval: 0
   });
 };
 

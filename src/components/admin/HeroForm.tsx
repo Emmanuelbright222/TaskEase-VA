@@ -7,6 +7,9 @@ import { createToast } from '../ui/ToastContainer';
 import { mutate } from 'swr';
 import { fetchHero } from '../../hooks/usePortfolioData';
 
+// Global cache key for hero data
+const HERO_CACHE_KEY = 'hero';
+
 const HeroForm = () => {
   const [formValues, setFormValues] = useState({
     id: '',
@@ -110,14 +113,21 @@ const HeroForm = () => {
       }
       
       // Force revalidation of hero cache to refresh frontend
-      // Fetch fresh data and update cache immediately
-      try {
-        const freshHeroData = await fetchHero();
-        await mutate('hero', freshHeroData, { revalidate: true });
-      } catch (mutateError) {
-        console.warn('Cache update error (non-critical):', mutateError);
-        // Still show success even if cache update fails
-      }
+      // Use a small delay to ensure database transaction is committed
+      setTimeout(async () => {
+        try {
+          // First, fetch fresh data
+          const freshData = await fetchHero();
+          // Update cache with fresh data
+          await mutate(HERO_CACHE_KEY, freshData, { revalidate: false });
+          // Also trigger a revalidation to ensure all components update
+          await mutate(HERO_CACHE_KEY);
+        } catch (err) {
+          console.warn('Cache update error:', err);
+          // Fallback: just trigger revalidation
+          mutate(HERO_CACHE_KEY).catch(() => {});
+        }
+      }, 300);
       
       createToast.emit({ id: `${toastId}-success`, message: 'Hero updated successfully', type: 'success' });
     } catch (err: any) {
