@@ -21,12 +21,18 @@ const Services = () => {
         {data?.services.map((service) => (
           <GlassCard key={service.id} className="overflow-hidden cursor-default group rounded-3xl">
             {service.imageUrl ? (
-              <div className="relative h-48 w-full overflow-hidden -m-6 mb-4 rounded-t-3xl">
+              <div className="relative h-48 w-full overflow-hidden -m-6 -mt-6 mb-4 rounded-t-3xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-blue-500/20 blur-2xl" />
                 <img
                   src={service.imageUrl}
                   alt={service.title}
-                  className="relative h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="relative w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ 
+                    width: '100%', 
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
                   onError={(e) => {
                     // Fallback if image fails to load
                     (e.target as HTMLImageElement).style.display = 'none';
@@ -36,7 +42,7 @@ const Services = () => {
               </div>
             ) : (
               // Placeholder if no image
-              <div className="relative h-48 w-full overflow-hidden -m-6 mb-4 rounded-t-3xl bg-gradient-to-br from-primary/20 via-accent/20 to-blue-500/20 flex items-center justify-center">
+              <div className="relative h-48 w-full overflow-hidden -m-6 -mt-6 mb-4 rounded-t-3xl bg-gradient-to-br from-primary/20 via-accent/20 to-blue-500/20 flex items-center justify-center">
                 <div className="text-4xl opacity-30">📋</div>
               </div>
             )}
