@@ -18,7 +18,7 @@ export type Project = {
   id: string;
   name: string;
   description: string;
-  metrics?: string;
+  metrics?: string[];
   tags?: string[];
   imageUrl?: string;
   caseStudyUrl?: string;

@@ -28,7 +28,7 @@ const AdminDashboard = () => {
         <HeroForm />
         <AboutForm />
         <CrudList table="services" title="Services" description="Add or edit your offers" fields={[{ name: 'title', label: 'Title' }, { name: 'description', label: 'Description', type: 'textarea' }]} />
-        <CrudList table="projects" title="Projects" description="Case studies + metrics" fields={[{ name: 'name', label: 'Project Name' }, { name: 'description', label: 'Description', type: 'textarea' }, { name: 'metrics', label: 'Metrics' }, { name: 'tags', label: 'Tags (comma separated)' }]} />
+        <CrudList table="projects" title="Projects" description="Case studies + metrics" fields={[{ name: 'name', label: 'Project Name' }, { name: 'description', label: 'Description', type: 'textarea' }, { name: 'metrics', label: 'Metrics (comma separated)' }, { name: 'tags', label: 'Tags (comma separated)' }]} />
         <CrudList table="testimonials" title="Testimonials" description="Client words" fields={[{ name: 'name', label: 'Client' }, { name: 'quote', label: 'Quote', type: 'textarea' }, { name: 'avatar', label: 'Avatar URL' }]} />
         <CrudList table="tools" title="Tools" description="Update your tech stack" fields={[{ name: 'name', label: 'Tool Name' }, { name: 'category', label: 'Category' }, { name: 'proficiency', label: 'Proficiency' }]} />
         <CrudList table="pricing_plans" title="Pricing" description="Available plans" fields={[{ name: 'title', label: 'Plan Title' }, { name: 'price', label: 'Price' }, { name: 'description', label: 'Description', type: 'textarea' }, { name: 'features', label: 'Features (comma separated)' }]} />

@@ -38,14 +38,14 @@ export const defaultPortfolioData: PortfolioData = {
       id: 'project-1',
       name: 'ClickUp Revamp',
       description: 'Reduced task turnaround time by 42% by restructuring ClickUp for a 15-person product team.',
-      metrics: '42% faster turnaround · 0 missed deadlines',
+      metrics: ['42% faster turnaround', '0 missed deadlines'],
       tags: ['ClickUp', 'Automation']
     },
     {
       id: 'project-2',
       name: 'Executive Ops Suite',
       description: 'Built a unified Notion HQ, CRM, and meeting insights for a seed-stage founder.',
-      metrics: '10h/week saved · 1 source of truth',
+      metrics: ['10h/week saved', '1 source of truth'],
       tags: ['Notion', 'Delegation']
     }
   ],

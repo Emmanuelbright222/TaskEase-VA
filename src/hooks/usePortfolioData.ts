@@ -42,15 +42,30 @@ const fetchPortfolio = async (): Promise<PortfolioData> => {
         title: service.title,
         description: service.description
       })) ?? defaultPortfolioData.services,
-      projects: projects?.map((project: any) => ({
-        id: project.id,
-        name: project.name,
-        description: project.description,
-        metrics: project.metrics,
-        tags: project.tags,
-        imageUrl: project.image_url,
-        caseStudyUrl: project.case_study_url
-      })) ?? defaultPortfolioData.projects,
+      projects: projects?.map((project: any) => {
+        // Normalize metrics to always be an array (handle both string and array from DB)
+        let metrics = project.metrics;
+        if (metrics && !Array.isArray(metrics)) {
+          // If it's a string, try to split it (handle both comma and middle dot separators)
+          if (typeof metrics === 'string') {
+            metrics = metrics.split(/[·,]/).map((m: string) => m.trim()).filter(Boolean);
+          } else {
+            metrics = [];
+          }
+        } else if (!metrics) {
+          metrics = [];
+        }
+        
+        return {
+          id: project.id,
+          name: project.name,
+          description: project.description,
+          metrics: metrics,
+          tags: project.tags || [],
+          imageUrl: project.image_url,
+          caseStudyUrl: project.case_study_url
+        };
+      }) ?? defaultPortfolioData.projects,
       testimonials: testimonials?.map((testimonial: any) => ({
         id: testimonial.id,
         name: testimonial.name,

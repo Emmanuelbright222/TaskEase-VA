@@ -13,14 +13,18 @@ const ThemeContext = createContext<ThemeContextValue>({
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+  // Initialize theme from localStorage immediately to prevent flash
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem('taskease-theme') as Theme | null;
+      return storedTheme || 'light';
+    }
+    return 'light';
+  });
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('taskease-theme') as Theme | null;
-    if (storedTheme) {
-      setTheme(storedTheme);
-      document.documentElement.classList.toggle('dark', storedTheme === 'dark');
-    }
+    // Ensure the class is applied on mount
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, []);
 
   useEffect(() => {

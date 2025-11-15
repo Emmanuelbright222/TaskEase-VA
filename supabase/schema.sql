@@ -30,7 +30,7 @@ create table if not exists projects (
   id uuid primary key default uuid_generate_v4(),
   name text not null,
   description text,
-  metrics text,
+  metrics text[],
   tags text[],
   image_url text,
   case_study_url text,
