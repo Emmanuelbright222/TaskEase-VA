@@ -32,8 +32,8 @@ const Testimonials = () => {
       </div>
       <div className="relative">
         {/* Mobile: Horizontal scroll, one at a time */}
-        <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth md:hidden">
-          <div className="flex gap-6 pb-4">
+        <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth md:hidden" style={{ scrollBehavior: 'smooth' }}>
+          <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
             {data.testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
@@ -83,15 +83,16 @@ const Testimonials = () => {
         </div>
         {/* Desktop: Grid layout, 3 per row with horizontal scroll */}
         <div className="hidden md:block">
-          <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-4">
-            <div className="flex gap-6 pb-4">
+          <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-4" style={{ scrollBehavior: 'smooth' }}>
+            <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
               {data.testimonials.map((testimonial) => (
                 <div
                   key={testimonial.id}
                   className="flex-shrink-0 snap-start"
                   style={{ 
-                    width: 'calc((100vw - 8rem) / 3)',
-                    minWidth: '380px'
+                    width: '400px',
+                    minWidth: '400px',
+                    maxWidth: '400px'
                   }}
                 >
                 <GlassCard className="h-full p-8 space-y-4 cursor-default group">
