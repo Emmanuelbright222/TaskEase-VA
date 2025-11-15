@@ -4,20 +4,42 @@ import { defaultPortfolioData, heroFallback } from '../data/defaultContent';
 import type { HeroContent, PortfolioData } from '../types/portfolio';
 
 const fetchHero = async (): Promise<HeroContent> => {
-  const { data, error } = await supabase.from('hero').select('*').maybeSingle();
-  if (error || !data) {
-    console.warn('Falling back to local hero content', error?.message);
+  try {
+    // First try to get a single row, if multiple exist, get the first one
+    const { data, error } = await supabase.from('hero').select('*').limit(1).maybeSingle();
+    if (error) {
+      // If maybeSingle fails due to multiple rows, try getting first row
+      const { data: firstData, error: firstError } = await supabase.from('hero').select('*').limit(1).single();
+      if (firstError || !firstData) {
+        console.warn('Falling back to local hero content', error?.message || firstError?.message);
+        return heroFallback;
+      }
+      return {
+        name: firstData.name,
+        title: firstData.title,
+        subtitle: firstData.subtitle,
+        avatarUrl: firstData.avatar_url,
+        calendlyUrl: firstData.calendly_url,
+        contactCta: firstData.contact_cta,
+        callToAction: firstData.cta_label
+      };
+    }
+    if (!data) {
+      return heroFallback;
+    }
+    return {
+      name: data.name,
+      title: data.title,
+      subtitle: data.subtitle,
+      avatarUrl: data.avatar_url,
+      calendlyUrl: data.calendly_url,
+      contactCta: data.contact_cta,
+      callToAction: data.cta_label
+    };
+  } catch (err) {
+    console.warn('Error fetching hero content, using fallback', err);
     return heroFallback;
   }
-  return {
-    name: data.name,
-    title: data.title,
-    subtitle: data.subtitle,
-    avatarUrl: data.avatar_url,
-    calendlyUrl: data.calendly_url,
-    contactCta: data.contact_cta,
-    callToAction: data.cta_label
-  };
 };
 
 const fetchPortfolio = async (): Promise<PortfolioData> => {
